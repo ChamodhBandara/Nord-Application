@@ -1,0 +1,325 @@
+/* === ROOT VARIABLES (Color Palette & Design System) === */
+:root {
+  --color-bg-primary: #111827; /* Very Dark Blue/Gray */
+  --color-bg-secondary: #1F2937; /* Dark Gray */
+  --color-border: #374151; /* Muted Gray */
+  --color-text-primary: #F9FAFB; /* Off-White */
+  --color-text-secondary: #9CA3AF; /* Lighter Gray */
+  --color-accent: #3B82F6; /* Bright Blue */
+  --color-accent-hover: #2563EB;
+  --color-success: #10B981;
+  --color-danger: #EF4444;
+
+  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --border-radius: 0.5rem;
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --transition-speed: 0.2s ease-in-out;
+}
+
+/* === GLOBAL RESETS & TYPOGRAPHY === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family-sans);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3 {
+  color: var(--color-text-primary);
+  margin-bottom: 1rem;
+}
+
+p {
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* === MAIN APP LAYOUT === */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 2rem;
+  transition: margin-left var(--transition-speed);
+}
+
+/* === SIDEBAR STYLES === */
+.sidebar {
+  width: 260px;
+  background-color: var(--color-bg-secondary);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-speed);
+  flex-shrink: 0; /* Prevent sidebar from shrinking */
+}
+
+.sidebar-header {
+  padding: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-bottom: 1px solid var(--color-border);
+  text-align: center;
+}
+
+.sidebar-nav {
+  flex-grow: 1;
+  padding: 1rem 0;
+}
+
+/* Add these new rules to your existing index.css file for the sidebar */
+
+.sidebar-nav .nav-item {
+  width: 100%;
+}
+
+.sidebar-nav .nav-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  background: none;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  text-align: left;
+}
+
+.sidebar-nav .nav-button:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: var(--color-text-primary);
+}
+
+.sidebar-nav .nav-button-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sidebar-nav .nav-button .chevron {
+  transition: transform var(--transition-speed);
+}
+
+.sidebar-nav .nav-item.open > .nav-button .chevron {
+  transform: rotate(180deg);
+}
+
+.sidebar-nav .submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-nav .nav-item.open > .submenu {
+  max-height: 500px; /* Or a value larger than the content */
+}
+
+.sidebar-nav .submenu .nav-link {
+  padding-left: 3rem; /* Indent sub-items */
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Rename .sidebar-nav a to .sidebar-nav .nav-link for specificity */
+.sidebar-nav .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all var(--transition-speed);
+  border-left: 3px solid transparent;
+}
+
+.sidebar-nav .nav-link:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: var(--color-text-primary);
+}
+
+.sidebar-nav .nav-link.active {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: var(--color-accent);
+  border-left-color: var(--color-accent);
+}
+
+.sidebar-nav .nav-link .icon {
+  color: inherit;
+  flex-shrink: 0;
+}
+
+/* Add these new rules to your existing index.css file */
+
+.sidebar-nav a {
+  display: flex;
+  align-items: center; /* This vertically centers the icon and text */
+  gap: 0.75rem; /* Adds space between the icon and the text */
+  padding: 0.75rem 1.5rem;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all var(--transition-speed);
+  border-left: 3px solid transparent;
+}
+
+/* This ensures the icon itself inherits the link's color for hover/active states */
+.sidebar-nav a .icon {
+  color: inherit;
+  flex-shrink: 0; /* Prevents the icon from shrinking */
+}
+
+.sidebar-nav a:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: var(--color-text-primary);
+}
+
+.sidebar-nav a.active {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: var(--color-accent);
+  border-left-color: var(--color-accent);
+}
+
+.sidebar-footer {
+  padding: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+.sidebar-footer .btn {
+  width: 100%;
+}
+
+/* === HEADER (Inside Main Content) === */
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.menu-button {
+  display: none; /* Hidden on desktop */
+  background: none;
+  border: none;
+  color: var(--color-text-primary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-right: 1rem;
+}
+
+/* === RESPONSIVE DESIGN (Mobile) === */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    transform: translateX(-100%);
+    z-index: 1000;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .main-content {
+    margin-left: 0;
+  }
+  .menu-button {
+    display: block;
+  }
+}
+
+/* === GENERIC COMPONENT STYLES === */
+.card {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 2rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--border-radius);
+  font-weight: bold;
+  cursor: pointer;
+  transition: all var(--transition-speed);
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-primary { background-color: var(--color-accent); color: white; }
+.btn-primary:hover { background-color: var(--color-accent-hover); }
+.btn-secondary { background-color: var(--color-border); color: var(--color-text-primary); }
+.btn-secondary:hover { background-color: #4B5563; }
+.btn-success { background-color: var(--color-success); color: white; }
+.btn-danger { background-color: var(--color-danger); color: white; }
+
+/* Table Styles */
+.table-container { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--color-border); }
+th { background-color: #374151; font-weight: bold; }
+td .btn { margin-right: 0.5rem; padding: 0.5rem 1rem; }
+
+/* Form Styles */
+.form-container { margin-top: 2rem; }
+.form-group { margin-bottom: 1.5rem; }
+input[type="text"], input[type="password"], input[type="email"] {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  color: var(--color-text-primary);
+  font-size: 1rem;
+  transition: border-color var(--transition-speed);
+}
+input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+/* Login/Register Page Specific Styles */
+.auth-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.auth-form-wrapper {
+  width: 100%;
+  max-width: 400px;
+  padding: 3rem;
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  text-align: center;
+}
+.auth-form-wrapper .form-group { position: relative; }
+.auth-form-wrapper .icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--color-text-secondary); }
+.auth-form-wrapper input { padding-left: 3rem; }
+.auth-form-wrapper .btn { width: 100%; }
+.auth-form-wrapper .auth-link { margin-top: 1.5rem; color: var(--color-text-secondary); }
+.auth-form-wrapper .auth-link a { color: var(--color-accent); text-decoration: none; }
+.auth-form-wrapper .auth-link a:hover { text-decoration: underline; }
+
+/* Message Styles */
+.error-message { color: var(--color-danger); margin-top: 1rem; }
+.success-message { color: var(--color-success); margin-top: 1rem; }
