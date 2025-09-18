@@ -21,7 +21,9 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,6 +36,18 @@ public class SecurityConfig {
 
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
+    
+    // Define admin credentials as a Map
+    private final Map<String, String> adminCredentials = new HashMap<>();
+    
+    // Initialize admin credentials in constructor
+    public SecurityConfig() {
+        // Add all your admin users here
+        adminCredentials.put("@Chamodh", "Chamodh@123");
+        adminCredentials.put("@Admin", "Admin@123");
+        adminCredentials.put("@SuperAdmin", "Super@123");
+        // Add more admins as needed
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -58,18 +72,26 @@ public class SecurityConfig {
     @Bean
     @Primary
     public UserDetailsService userDetailsService() {
+        // Create an InMemoryUserDetailsManager for admins
         InMemoryUserDetailsManager adminManager = new InMemoryUserDetailsManager();
-        adminManager.createUser(
-                User.withUsername("@Chamodh")
-                        .password(passwordEncoder().encode("Chamodh@123"))
-                        .roles("ADMIN")
-                        .build()
-        );
+        
+        // Add all admin users to the manager
+        adminCredentials.forEach((username, password) -> {
+            adminManager.createUser(
+                User.withUsername(username)
+                    .password(passwordEncoder().encode(password))
+                    .roles("ADMIN")
+                    .build()
+            );
+        });
 
+        // Return a custom UserDetailsService that checks for admin users first
         return username -> {
-            if ("@Chamodh".equals(username)) {
+            if (adminCredentials.containsKey(username)) {
+                // If username is in our admin list, get it from adminManager
                 return adminManager.loadUserByUsername(username);
             } else {
+                // Otherwise delegate to the custom service for regular users
                 return customUserDetailsService.loadUserByUsername(username);
             }
         };
